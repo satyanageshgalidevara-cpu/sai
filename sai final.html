@@ -1,0 +1,346 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Registration Portal</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f1f5f9;
+    color: #1e293b;
+}
+
+header {
+    background: #172554;
+    color: white;
+    padding: 18px 6%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+header h2 {
+    margin: 0;
+}
+
+button {
+    padding: 11px 18px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.login-btn {
+    background: #2563eb;
+    color: white;
+}
+
+.logout-btn {
+    background: #ef4444;
+    color: white;
+}
+
+.hero {
+    background: #2563eb;
+    color: white;
+    padding: 35px 6%;
+}
+
+.container {
+    max-width: 900px;
+    margin: 25px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px #00000012;
+}
+
+input, select {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+}
+
+label {
+    font-weight: bold;
+}
+
+.course {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px;
+    margin: 8px 0;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 7px;
+}
+
+.course input {
+    width: auto;
+    margin: 0;
+}
+
+.submit-btn {
+    background: #2563eb;
+    color: white;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.hidden {
+    display: none;
+}
+
+#message {
+    margin-top: 15px;
+    font-weight: bold;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 600px) {
+    .container {
+        margin: 15px;
+        padding: 18px;
+    }
+
+    header {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>Campus Portal</h2>
+    <button id="logoutBtn" class="logout-btn hidden"
+            onclick="logout()">Logout</button>
+</header>
+
+<!-- LOGIN PAGE -->
+<section id="loginPage" class="container">
+    <h2>Student Login</h2>
+    <p>Login to access course registration.</p>
+
+    <form id="loginForm">
+        <label>Email Address</label>
+        <input type="email" id="email"
+               placeholder="student@college.edu" required>
+
+        <label>Password</label>
+        <input type="password" id="password"
+               placeholder="Enter password"
+               minlength="4" required>
+
+        <button class="login-btn" type="submit">
+            Login
+        </button>
+    </form>
+
+    <p id="loginMessage"></p>
+    <small>
+        Demo only: use any valid email and a password
+        with at least 4 characters.
+    </small>
+</section>
+
+<!-- COURSE REGISTRATION PAGE -->
+<section id="registrationPage" class="hidden">
+
+    <div class="hero">
+        <h1>Course Registration</h1>
+        <p>Select your semester courses and calculate credits.</p>
+    </div>
+
+    <div class="container">
+        <h2>Student Details</h2>
+
+        <form id="registrationForm">
+
+            <label>Full Name</label>
+            <input type="text" id="studentName"
+                   placeholder="Enter your name" required>
+
+            <label>Roll Number</label>
+            <input type="text" id="rollNumber"
+                   placeholder="Enter roll number" required>
+
+            <label>Department</label>
+            <select id="department" required>
+                <option value="">Select Department</option>
+                <option>CSE</option>
+                <option>AIML</option>
+                <option>IT</option>
+                <option>ECE</option>
+                <option>EEE</option>
+                <option>Mechanical</option>
+            </select>
+
+            <h2>Select Courses</h2>
+
+            <label class="course">
+                <input type="checkbox" name="course"
+                       value="Java Programming" data-credit="4">
+                Java Programming — 4 Credits
+            </label>
+
+            <label class="course">
+                <input type="checkbox" name="course"
+                       value="Database Management" data-credit="4">
+                Database Management — 4 Credits
+            </label>
+
+            <label class="course">
+                <input type="checkbox" name="course"
+                       value="Machine Learning" data-credit="3">
+                Machine Learning — 3 Credits
+            </label>
+
+            <label class="course">
+                <input type="checkbox" name="course"
+                       value="Operating Systems" data-credit="3">
+                Operating Systems — 3 Credits
+            </label>
+
+            <label class="course">
+                <input type="checkbox" name="course"
+                       value="Web Development" data-credit="2">
+                Web Development — 2 Credits
+            </label>
+
+            <h3>
+                Selected Courses:
+                <span id="courseCount">0</span>
+            </h3>
+
+            <h3>
+                Total Credits:
+                <span id="totalCredits">0</span>
+            </h3>
+
+            <button class="submit-btn" type="submit">
+                Submit Registration
+            </button>
+
+            <div id="message" aria-live="polite"></div>
+
+        </form>
+    </div>
+</section>
+
+<script>
+// LOGIN FUNCTION
+const loginForm = document.getElementById("loginForm");
+
+loginForm.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    if (!email || password.length < 4) {
+        document.getElementById("loginMessage").textContent =
+            "Enter a valid email and password.";
+        return;
+    }
+
+    document.getElementById("loginPage").classList.add("hidden");
+    document.getElementById("registrationPage")
+        .classList.remove("hidden");
+    document.getElementById("logoutBtn")
+        .classList.remove("hidden");
+});
+
+// LOGOUT FUNCTION
+function logout() {
+    if (!confirm("Are you sure you want to logout?")) {
+        return;
+    }
+
+    document.getElementById("loginPage").classList.remove("hidden");
+    document.getElementById("registrationPage")
+        .classList.add("hidden");
+    document.getElementById("logoutBtn")
+        .classList.add("hidden");
+
+    loginForm.reset();
+    document.getElementById("registrationForm").reset();
+    document.getElementById("message").textContent = "";
+    document.getElementById("loginMessage").textContent = "";
+
+    updateCredits();
+}
+
+// COURSE CREDIT CALCULATION
+const courseInputs = document.querySelectorAll(
+    'input[name="course"]'
+);
+
+function updateCredits() {
+    let total = 0;
+    let count = 0;
+
+    courseInputs.forEach(function(course) {
+        if (course.checked) {
+            total += Number(course.dataset.credit);
+            count++;
+        }
+    });
+
+    document.getElementById("totalCredits").textContent = total;
+    document.getElementById("courseCount").textContent = count;
+}
+
+courseInputs.forEach(function(course) {
+    course.addEventListener("change", updateCredits);
+});
+
+// SUBMIT REGISTRATION
+document.getElementById("registrationForm")
+.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const selected = [...courseInputs].filter(
+        course => course.checked
+    );
+
+    if (selected.length === 0) {
+        alert("Please select at least one course.");
+        return;
+    }
+
+    const name = document.getElementById("studentName").value.trim();
+    const roll = document.getElementById("rollNumber").value.trim();
+    const department = document.getElementById("department").value;
+
+    const courses = selected.map(course => course.value).join(", ");
+    const credits = selected.reduce(
+        (sum, course) => sum + Number(course.dataset.credit), 0
+    );
+
+    document.getElementById("message").textContent =
+        `Registration prepared for ${name} | Roll No: ${roll} | ` +
+        `Department: ${department} | Courses: ${courses} | ` +
+        `Total Credits: ${credits}`;
+
+    alert("Course registration completed in demo mode!");
+});
+</script>
+
+</body>
+</html>

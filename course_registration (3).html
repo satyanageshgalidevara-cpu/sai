@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Course Registration | Campus Portal</title>
+<style>
+:root{--navy:#14213d;--blue:#3157d5;--pale:#f4f7ff;--text:#202942;--muted:#69748c;--line:#e1e7f2;--white:#fff}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:var(--pale);color:var(--text)}
+header{background:var(--navy);color:white;padding:18px 6%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:18px}.logo{width:42px;height:42px;border-radius:12px;background:#fff;color:var(--blue);display:grid;place-items:center;font-weight:900;font-size:22px}
+header small{color:#cbd5ef;font-size:12px;display:block;margin-top:3px}.portal-tag{font-size:12px;border:1px solid #61708e;border-radius:30px;padding:8px 12px;color:#e8edff}
+.hero{background:linear-gradient(120deg,#172849,#3157d5);color:#fff;padding:42px 6% 58px}.hero p{color:#dbe4ff;max-width:620px;line-height:1.6;margin-bottom:0}.eyebrow{text-transform:uppercase;letter-spacing:2px;font-size:11px;font-weight:800;color:#c9d5ff}.hero h1{font-size:clamp(30px,4vw,43px);margin:12px 0 8px;letter-spacing:-1px}
+main{max-width:1100px;margin:-28px auto 50px;padding:0 20px;display:grid;grid-template-columns:minmax(0,1.65fr) minmax(260px,.85fr);gap:22px;align-items:start}
+.card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 12px 34px #182c5010;padding:26px}
+.card h2{margin:0 0 7px;font-size:20px}.sub{color:var(--muted);font-size:13px;line-height:1.5;margin:0 0 23px}
+.section-title{font-size:12px;font-weight:800;letter-spacing:.8px;color:#465675;text-transform:uppercase;margin:24px 0 13px;padding-bottom:9px;border-bottom:1px solid var(--line)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:flex;flex-direction:column;gap:7px}.field.full{grid-column:1/-1}label{font-size:12px;font-weight:700;color:#46516a}
+input,select{width:100%;padding:12px 13px;border:1px solid #dce3ef;border-radius:9px;background:#fff;color:var(--text);font:inherit;font-size:14px;outline:none}input:focus,select:focus{border-color:var(--blue);box-shadow:0 0 0 3px #3157d51a}
+.hint{font-size:11px;color:var(--muted);margin-top:2px}.course-list{display:grid;gap:10px}.course{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:13px;cursor:pointer;transition:.15s}.course:has(input:checked){border-color:var(--blue);background:#f5f7ff}.course input{width:17px;height:17px;accent-color:var(--blue);flex-shrink:0}.course-info{flex:1}.course-name{font-weight:750;font-size:13px}.course-meta{font-size:11px;color:var(--muted);margin-top:4px}.credits{font-size:12px;font-weight:800;color:var(--blue);white-space:nowrap}
+.actions{display:flex;gap:12px;margin-top:22px}.btn{border:0;border-radius:10px;padding:13px 18px;font-weight:750;font-size:13px;cursor:pointer}.primary{background:var(--blue);color:#fff;flex:1}.primary:hover{background:#2446b8}.secondary{background:#eef2fa;color:#3b4862}
+.summary{position:sticky;top:18px}.summary-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.status{background:#e8f8ef;color:#207a48;border-radius:30px;padding:6px 9px;font-size:10px;font-weight:800}.metric{padding:16px;background:#f5f7fc;border-radius:12px;margin-bottom:10px}.metric .label{font-size:11px;color:var(--muted)}.metric .value{font-size:25px;font-weight:850;margin-top:5px;color:var(--navy)}.metric .value span{font-size:12px;font-weight:600;color:var(--muted)}
+.summary h3{font-size:13px;margin:22px 0 12px}.selected{font-size:12px;color:var(--muted);line-height:1.8;min-height:42px}.note{border-top:1px solid var(--line);padding-top:16px;margin-top:20px;font-size:11px;color:var(--muted);line-height:1.7}.note strong{color:#46516a}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:0 20px 25px}
+dialog{border:0;border-radius:18px;padding:28px;max-width:420px;width:calc(100% - 32px);box-shadow:0 20px 70px #0003;color:var(--text)}dialog::backdrop{background:#111c36a8}.success-icon{width:54px;height:54px;border-radius:50%;display:grid;place-items:center;background:#e7f8ef;color:#16834b;font-size:28px;margin-bottom:15px}dialog h2{margin:0 0 8px}dialog p{font-size:13px;line-height:1.6;color:var(--muted)}.receipt{background:#f5f7fc;border-radius:10px;padding:12px;font-size:12px;line-height:1.8;margin:16px 0}
+@media(max-width:760px){main{grid-template-columns:1fr;margin-top:-25px}.summary{position:static;grid-row:1}.hero{padding-bottom:48px}.card{padding:20px}header{padding:14px 5%}.portal-tag{display:none}}
+@media(max-width:460px){.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.actions{flex-direction:column}.hero h1{font-size:30px}}
+</style>
+</head>
+<body>
+<header><div class="brand"><div class="logo">C</div><div>Campus Portal<small>STUDENT SERVICES</small></div></div><div class="portal-tag">ACADEMIC YEAR 2026–27</div></header>
+<section class="hero"><div class="eyebrow">Student services / Academics</div><h1>Course Registration</h1><p>Build your semester, choose your courses, and review your credits. Complete the form below to prepare your registration.</p></section>
+<main>
+<section class="card">
+<h2>Student information</h2><p class="sub">Enter your details and select the courses you want to take this semester.</p>
+<form id="regForm">
+<div class="section-title">01 &nbsp; Personal details</div>
+<div class="grid">
+<div class="field"><label for="name">Full name *</label><input id="name" name="name" placeholder="Enter your full name" required></div>
+<div class="field"><label for="roll">Student / Roll number *</label><input id="roll" name="roll" placeholder="e.g. 26001234" required></div>
+<div class="field"><label for="email">College email *</label><input id="email" name="email" type="email" placeholder="student@college.edu" required></div>
+<div class="field"><label for="year">Study year *</label><select id="year" required><option value="">Select year</option><option>1st Year</option><option>2nd Year</option><option>3rd Year</option><option>4th Year</option></select></div>
+<div class="field full"><label for="dept">Department *</label><select id="dept" required><option value="">Select department</option><option>Computer Science & Engineering</option><option>Artificial Intelligence & Machine Learning</option><option>Information Technology</option><option>Electronics & Communication Engineering</option><option>Electrical & Electronics Engineering</option><option>Mechanical Engineering</option><option>Civil Engineering</option><option>Other</option></select></div>
+</div>
+<div class="section-title">02 &nbsp; Choose courses</div>
+<p class="sub">Select at least one course. Review each course's credit value.</p>
+<div class="course-list" id="courses">
+<label class="course"><input type="checkbox" name="course" value="Programming in Java" data-credits="4"><span class="course-info"><span class="course-name">Programming in Java</span><span class="course-meta">CS201 · Core course</span></span><span class="credits">4 credits</span></label>
+<label class="course"><input type="checkbox" name="course" value="Database Management Systems" data-credits="4"><span class="course-info"><span class="course-name">Database Management Systems</span><span class="course-meta">CS202 · Core course</span></span><span class="credits">4 credits</span></label>
+<label class="course"><input type="checkbox" name="course" value="Machine Learning" data-credits="3"><span class="course-info"><span class="course-name">Machine Learning</span><span class="course-meta">AI301 · Department elective</span></span><span class="credits">3 credits</span></label>
+<label class="course"><input type="checkbox" name="course" value="Operating Systems" data-credits="3"><span class="course-info"><span class="course-name">Operating Systems</span><span class="course-meta">CS204 · Core course</span></span><span class="credits">3 credits</span></label>
+<label class="course"><input type="checkbox" name="course" value="Web Development" data-credits="2"><span class="course-info"><span class="course-name">Web Development</span><span class="course-meta">CS205 · Practical course</span></span><span class="credits">2 credits</span></label>
+<label class="course"><input type="checkbox" name="course" value="Probability and Statistics" data-credits="3"><span class="course-info"><span class="course-name">Probability and Statistics</span><span class="course-meta">MA201 · Foundation course</span></span><span class="credits">3 credits</span></label>
+</div>
+<div class="actions"><button class="btn primary" type="submit">Submit registration →</button><button class="btn secondary" type="reset">Reset form</button></div>
+<p class="hint">* Required fields. Demo only: your information is not sent to a server or saved.</p>
+</form>
+</section>
+<aside class="card summary">
+<div class="summary-head"><h2>Registration summary</h2><span class="status">IN PROGRESS</span></div>
+<div class="metric"><div class="label">Selected courses</div><div class="value" id="courseCount">0 <span>/ 6 courses</span></div></div>
+<div class="metric"><div class="label">Total semester credits</div><div class="value" id="creditCount">0 <span>credits</span></div></div>
+<h3>Your selected courses</h3><div class="selected" id="selectedList">No courses selected yet.</div>
+<div class="note"><strong>Before you submit</strong><br>Check your student details and make sure your selected courses match your semester plan. This frontend demo does not verify prerequisites or actual course availability.</div>
+</aside>
+</main>
+<footer>Campus Portal · Course Registration Demo · Frontend project</footer>
+<dialog id="successDialog"><div class="success-icon">✓</div><h2>Registration prepared!</h2><p>Your demo registration has been completed on this page. No information was sent to a college server.</p><div class="receipt" id="receipt"></div><button class="btn primary" id="closeDialog">Done</button></dialog>
+<script>
+const form=document.getElementById('regForm');
+const checks=[...document.querySelectorAll('input[name="course"]')];
+function updateSummary(){
+ const chosen=checks.filter(c=>c.checked);
+ const credits=chosen.reduce((sum,c)=>sum+Number(c.dataset.credits),0);
+ document.getElementById('courseCount').innerHTML=`${chosen.length} <span>/ 6 courses</span>`;
+ document.getElementById('creditCount').innerHTML=`${credits} <span>credits</span>`;
+ document.getElementById('selectedList').textContent=chosen.length?chosen.map(c=>`${c.value} (${c.dataset.credits} cr)`).join(' · '):'No courses selected yet.';
+}
+checks.forEach(c=>c.addEventListener('change',updateSummary));
+form.addEventListener('reset',()=>setTimeout(updateSummary,0));
+form.addEventListener('submit',e=>{
+ e.preventDefault();
+ const chosen=checks.filter(c=>c.checked);
+ if(!chosen.length){alert('Please select at least one course.');return;}
+ const name=document.getElementById('name').value.trim();
+ const roll=document.getElementById('roll').value.trim();
+ const email=document.getElementById('email').value.trim();
+ const dept=document.getElementById('dept').value;
+ const year=document.getElementById('year').value;
+ const credits=chosen.reduce((sum,c)=>sum+Number(c.dataset.credits),0);
+ document.getElementById('receipt').innerHTML=`<strong>Student:</strong> ${escapeText(name)}<br><strong>Roll no.:</strong> ${escapeText(roll)}<br><strong>Department:</strong> ${escapeText(dept)}<br><strong>Year:</strong> ${escapeText(year)}<br><strong>Courses:</strong> ${chosen.length}<br><strong>Total credits:</strong> ${credits}<br><strong>Email:</strong> ${escapeText(email)}`;
+ document.getElementById('successDialog').showModal();
+});
+function escapeText(s){return s.replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+document.getElementById('closeDialog').addEventListener('click',()=>document.getElementById('successDialog').close());
+updateSummary();
+</script>
+</body>
+</html>
